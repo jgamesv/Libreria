@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.librerias.SecondaryController">
+    <children>
+      <Pane prefHeight="414.0" prefWidth="618.0">
+         <children>
+              <Button fx:id="secondaryButton" layoutX="25.0" layoutY="357.0" onAction="#switchToPrimary" text="Cerrar Sesión" />
+            <TableView fx:id="table" layoutX="25.0" layoutY="67.0" onMouseClicked="#añadirCarrito" prefHeight="261.0" prefWidth="580.0">
+               <columns>
+                  <TableColumn fx:id="tctitles" prefWidth="93.0" text="Titulos" />
+                  <TableColumn fx:id="tcauthors" prefWidth="112.0" text="Autores" />
+                  <TableColumn fx:id="tcsisbn" prefWidth="270.0" text="ISBN" />
+                  <TableColumn fx:id="tcprice" prefWidth="104.0" text="Precio" />
+               </columns></TableView>
+            <Label fx:id="userName" layoutX="377.0" layoutY="28.0" text="nombre " />
+              <Label layoutX="25.0" layoutY="23.0" text="BOOK's">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="554.0" layoutY="26.0" onMouseClicked="#carrito" text="Carrito" />
+            <Label fx:id="leg" layoutX="590.0" layoutY="13.0" text="0" textFill="#9e3737" />
+            <Label layoutX="327.0" layoutY="362.0" prefHeight="17.0" prefWidth="36.0" text="Saldo" />
+            <Label fx:id="saldo" layoutX="451.0" layoutY="28.0" text="num" />
+            <TextField fx:id="saldoText" layoutX="387.0" layoutY="358.0" prefHeight="25.0" prefWidth="94.0" />
+            <Button layoutX="508.0" layoutY="357.0" mnemonicParsing="false" onAction="#setSaldo" text="Agregar Saldo" />
+         </children>
+      </Pane>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>
