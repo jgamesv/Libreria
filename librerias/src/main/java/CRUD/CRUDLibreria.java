@@ -73,13 +73,13 @@ public class CRUDLibreria {
             Statement st = con.createStatement();
             st.executeQuery(sql);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            
         }
 
     }
 
-    static public void updateSaldo(double precio) {
+    static public boolean updateSaldo(double precio) {
 
         if (saldo > precio) {
             String sql = "UPDATE users SET saldo = saldo-" + precio + " WHERE id = " + id + "; ";
@@ -87,30 +87,29 @@ public class CRUDLibreria {
                 Connection con = Conection.getConection();
                 Statement st = con.createStatement();
                 st.executeUpdate(sql);
+                saldo -= precio;
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            return true;
         }
-
+        return false;
     }
         static public void ingresarSaldo(double ingresarsaldo) {
 
-        if (saldo < ingresarsaldo) {
-            String sql = "UPDATE users SET saldo =" + ingresarsaldo + " WHERE id = " + id + ";";
+            String sql = "UPDATE users SET saldo = saldo +" + ingresarsaldo + " WHERE id = " + id + ";";
             try {
                 Connection con = Conection.getConection();
                 Statement st = con.createStatement();
                 st.executeUpdate(sql);
                 con.commit();
-                saldo = ingresarsaldo;
+                saldo += ingresarsaldo;
                 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-        }
 
     }
     static public void getSaldo() {
@@ -141,8 +140,21 @@ public class CRUDLibreria {
             Optional<ButtonType> action = alert.showAndWait();
             for (Libros libro : libros) {
                 CRUDLibreria.updateStock(libro.getTitle());
-                CRUDLibreria.updateSaldo(libro.getPrice());
+                 boolean bandera =CRUDLibreria.updateSaldo(libro.getPrice());
+                 
+                if(!bandera){
+                    con.rollback();
+                    Alert noMoney = new Alert(Alert.AlertType.INFORMATION);
+                    noMoney.setHeaderText(null);
+                    noMoney.setTitle("No hay Saldo");
+                    noMoney.setContentText("Error al comprar no hay suficiciente saldo");
+                    noMoney.show();
+                    getSaldo();
+                    return false;
+                }
                 CRUDLibreria.insertPedido(libro.getId());
+                
+                
             }
             if (action.get() == ButtonType.OK) {
                 con.commit();
@@ -156,5 +168,49 @@ public class CRUDLibreria {
         return false;
 
     }
+    public static void modificar(int id, String title, String author, String ISBN,double price, int stock ){
 
+            String sql = "UPDATE books SET  title='" +title + "', author='"+author+"', ibsn='"+ ISBN+"', price="+price+", stock="+stock+"   WHERE id = " + id + "; ";
+            try {
+                Connection con = Conection.getConection();
+                Statement st = con.createStatement();
+                st.executeUpdate(sql);
+                con.commit();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        
+
+    }
+        public static void insert(int id, String title, String author, String ISBN, double price, int stock ){
+
+            String sql = "INSERT INTO books  VALUES ("+ id + ", '" +title + "', '"+author+"', '"+ ISBN+"', "+price+", "+stock+"); ";
+            try {
+                Connection con = Conection.getConection();
+                Statement st = con.createStatement();
+                st.executeUpdate(sql);
+                con.commit();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+            public static void eliminar(int id){
+
+            String sql = "DELETE FROM books WHERE id= "+id;
+            try {
+                Connection con = Conection.getConection();
+                Statement st = con.createStatement();
+                st.executeUpdate(sql);
+                con.commit();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        
+
+    }
 }

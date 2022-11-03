@@ -15,7 +15,7 @@
       <Pane fx:id="saldo" prefHeight="507.0" prefWidth="858.0">
          <children>
               <Button fx:id="secondaryButton" layoutX="25.0" layoutY="436.0" onAction="#switchToPrimary" text="Cerrar Sesión" />
-            <TableView fx:id="table" layoutX="25.0" layoutY="67.0" onMouseClicked="#añadirCarrito" prefHeight="261.0" prefWidth="673.0">
+            <TableView fx:id="table" layoutX="25.0" layoutY="67.0" onMouseClicked="#mostrardatos" prefHeight="261.0" prefWidth="673.0">
                <columns>
                   <TableColumn fx:id="tcid" prefWidth="41.0" text="id" />
                   <TableColumn fx:id="tctitles" prefWidth="122.0" text="Titulos" />
@@ -24,33 +24,29 @@
                   <TableColumn fx:id="tcprice" minWidth="8.0" prefWidth="75.0" text="Precio" />
                   <TableColumn fx:id="tcstock" prefWidth="82.0" text="Stock" />
                </columns></TableView>
-            <Label fx:id="userName" layoutX="401.0" layoutY="28.0" text="nombre " />
+            <Label fx:id="userName" layoutX="609.0" layoutY="28.0" text="nombre " />
               <Label layoutX="25.0" layoutY="23.0" text="BOOK's">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="606.0" layoutY="28.0" onMouseClicked="#carrito" text="Carrito" />
-            <Label fx:id="leg" layoutX="642.0" layoutY="15.0" prefHeight="17.0" prefWidth="0.0" text="0" textFill="#9e3737" />
-            <Label fx:id="sal" layoutX="521.0" layoutY="28.0" text="num" />
-            <TextField fx:id="saldoText" layoutX="460.0" layoutY="437.0" prefHeight="25.0" prefWidth="94.0" />
-            <Button layoutX="578.0" layoutY="437.0" mnemonicParsing="false" onAction="#setSaldo" text="Agregar Saldo" />
-            <TextField layoutX="23.0" layoutY="386.0" prefHeight="25.0" prefWidth="45.0" />
-            <TextField layoutX="89.0" layoutY="386.0" prefHeight="25.0" prefWidth="126.0" />
-            <TextField layoutX="234.0" layoutY="386.0" prefHeight="25.0" prefWidth="106.0" />
-            <TextField layoutX="533.0" layoutY="386.0" prefHeight="25.0" prefWidth="64.0" />
-            <TextField layoutX="354.0" layoutY="386.0" prefHeight="25.0" prefWidth="165.0" />
-            <TextField layoutX="613.0" layoutY="386.0" prefHeight="25.0" prefWidth="64.0" />
+            <TextField fx:id="id" layoutX="23.0" layoutY="386.0" prefHeight="25.0" prefWidth="45.0" />
+            <TextField fx:id="titulo" layoutX="89.0" layoutY="386.0" prefHeight="25.0" prefWidth="126.0" />
+            <TextField fx:id="autor" layoutX="234.0" layoutY="386.0" prefHeight="25.0" prefWidth="106.0" />
+            <TextField fx:id="price" layoutX="533.0" layoutY="386.0" prefHeight="25.0" prefWidth="64.0" />
+            <TextField fx:id="isbn" layoutX="354.0" layoutY="386.0" prefHeight="25.0" prefWidth="165.0" />
+            <TextField fx:id="stock" layoutX="613.0" layoutY="386.0" prefHeight="25.0" prefWidth="64.0" />
             <Label layoutX="40.0" layoutY="356.0" text="ID" />
             <Label layoutX="134.0" layoutY="356.0" text="Titulo" />
             <Label layoutX="273.0" layoutY="356.0" text="Autor" />
             <Label layoutX="423.0" layoutY="356.0" text="ISBN" />
-            <Label layoutX="551.0" layoutY="356.0" text="Precio" />
+            <Label layoutX="549.0" layoutY="356.0" text="Precio" />
             <Label layoutX="631.0" layoutY="356.0" text="Stock" />
-            <Button layoutX="124.0" layoutY="436.0" mnemonicParsing="false" text="Insertar" />
-            <Button layoutX="189.0" layoutY="436.0" mnemonicParsing="false" text="Modificar" />
-            <Button layoutX="273.0" layoutY="437.0" mnemonicParsing="false" text="Eliminar" />
-            <Label layoutX="409.0" layoutY="440.0" text="Saldo" />
+            <Button fx:id="nuevo" layoutX="463.0" layoutY="436.0" mnemonicParsing="false" onAction="#nueva" text="Nuevo" />
+            <Button layoutX="534.0" layoutY="436.0" mnemonicParsing="false" onAction="#modify" text="Modificar" />
+            <Button layoutX="613.0" layoutY="436.0" mnemonicParsing="false" onAction="#deleted" text="Eliminar" />
+            <Button fx:id="aceptar" layoutX="234.0" layoutY="436.0" mnemonicParsing="false" onAction="#insert" text="Aceptar" />
+            <Button fx:id="cancelar" layoutX="309.0" layoutY="436.0" mnemonicParsing="false" onAction="#cancel" text="Cancelar" />
          </children>
       </Pane>
     </children>

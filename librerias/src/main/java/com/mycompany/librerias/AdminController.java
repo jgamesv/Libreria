@@ -16,6 +16,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,15 +28,28 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @author Jorge
  */
 public class AdminController {
-    
+
     @FXML
     Label userName;
     @FXML
-    Label sal;
+    Button nuevo;
     @FXML
-    Label leg;
+    Button aceptar;
     @FXML
-    TextField saldoText;
+    Button cancelar;
+    @FXML
+    TextField id;
+    @FXML
+    TextField isbn;
+    @FXML
+    TextField titulo;
+    @FXML
+    TextField autor;
+    @FXML
+    TextField price;
+    @FXML
+    TextField stock;
+
     @FXML
     private TableView<Libros> table;
     @FXML
@@ -50,18 +64,19 @@ public class AdminController {
     private TableColumn<Libros, Integer> tcid;
     @FXML
     private TableColumn<Libros, Integer> tcstock;
-    private ArrayList<Libros> selcionados = new ArrayList();
 
     @FXML
     private void initialize() {
-        userName.setText("Administrador: "+CRUDLibreria.name);
-        this.sal.setText("Saldo: "+CRUDLibreria.saldo+"€");
+        userName.setText("Administrador: " + CRUDLibreria.name);
+        disabled();
         getProducts();
+        aceptar.setVisible(false);
+        cancelar.setVisible(false);
+
     }
 
     @FXML
     private void switchToPrimary() throws IOException {
-        this.selcionados.clear();
         App.setRoot("primary");
 
     }
@@ -78,7 +93,7 @@ public class AdminController {
             con.commit();
             while (rs.next()) {
                 if (rs.getInt("stock") > 0) {
-                    obs.add(new Libros(rs.getInt("id"), rs.getString("title"), rs.getString("author"), rs.getDouble("price"), rs.getString("ibsn"),rs.getInt("stock")));
+                    obs.add(new Libros(rs.getInt("id"), rs.getString("title"), rs.getString("author"), rs.getDouble("price"), rs.getString("ibsn"), rs.getInt("stock")));
                     this.table.setItems(obs);
                     this.tctitles.setCellValueFactory(new PropertyValueFactory("title"));
                     this.tcauthors.setCellValueFactory(new PropertyValueFactory("author"));
@@ -97,29 +112,98 @@ public class AdminController {
     }
 
     @FXML
-    private void añadirCarrito() {
+    private void mostrardatos() {
         if (this.table != null) {
             List<Libros> tablaPokemon = this.table.getSelectionModel().getSelectedItems();
             final Libros libro = tablaPokemon.get(0);
-            this.selcionados.add(libro);
-            String num = " " + this.selcionados.size() + " ";
-            leg.setText(num.trim());
+            String idStr = " " + libro.getId() + " ";
+            String priceStr = " " + libro.getPrice() + " ";
+            String stockStr = " " + libro.getStock() + " ";
+
+            this.id.setText(idStr.trim());
+            this.titulo.setText(libro.getTitle());
+            this.autor.setText(libro.getAuthor());
+            this.isbn.setText(libro.getISBN());
+            this.price.setText(priceStr.trim());
+            this.stock.setText(stockStr.trim());
+            enabled();
+            id.setDisable(true);
         }
 
     }
 
-    @FXML
-    private void carrito() throws SQLException {
-       boolean bandera = CRUDLibreria.transacion(selcionados);
-       if(bandera){
-        this.selcionados.clear();
-        leg.setText("0");
-       }
+    private void disabled() {
+        this.id.setDisable(true);
+        this.titulo.setDisable(true);
+        this.autor.setDisable(true);
+        this.isbn.setDisable(true);
+        this.price.setDisable(true);
+        this.stock.setDisable(true);
     }
-    @FXML
-    private void setSaldo(){
-        
-        CRUDLibreria.ingresarSaldo(Double.parseDouble(saldoText.getText()));
-        sal.setText("Saldo: "+CRUDLibreria.saldo+"€");
+
+    private void enabled() {
+        this.id.setDisable(false);
+        this.titulo.setDisable(false);
+        this.autor.setDisable(false);
+        this.isbn.setDisable(false);
+        this.price.setDisable(false);
+        this.stock.setDisable(false);
     }
+
+    private void clear() {
+        this.id.clear();
+        this.titulo.clear();
+        this.autor.clear();
+        this.isbn.clear();
+        this.price.clear();
+        this.stock.clear();
+    }
+
+    @FXML
+    private void nueva() {
+        clear();
+        enabled();
+        aceptar.setVisible(true);
+        cancelar.setVisible(true);
+        nuevo.setVisible(false);
+    }
+
+    @FXML
+    private void modify() {
+        CRUDLibreria.modificar(Integer.parseInt(this.id.getText()), this.titulo.getText(), this.autor.getText(), this.isbn.getText(), Double.parseDouble(this.price.getText()), Integer.parseInt(this.stock.getText()));
+        clear();
+        disabled();
+        this.getProducts();
+
+    }
+
+    @FXML
+    private void insert() {
+
+        CRUDLibreria.insert(Integer.parseInt(this.id.getText()), this.titulo.getText(), this.autor.getText(), this.isbn.getText(), Double.parseDouble(this.price.getText()), Integer.parseInt(this.stock.getText()));
+        clear();
+        disabled();
+        this.getProducts();
+
+    }
+
+    @FXML
+    private void cancel() {
+        clear();
+        disabled();
+        nuevo.setVisible(true);
+        aceptar.setVisible(false);
+        cancelar.setVisible(false);
+
+
+    }
+
+    @FXML
+    private void deleted() {
+        CRUDLibreria.eliminar(Integer.parseInt(this.id.getText()));
+        clear();
+        disabled();
+        this.getProducts();
+    }
+
 }

@@ -19,6 +19,12 @@ public class PrimaryController {
     @FXML
     PasswordField pass;
     
+    
+    @FXML
+    private void initialize() {
+        this.error.setVisible(false);
+    }
+    
     @FXML
     private void switchToSecondary() throws IOException {
         int rol  = CRUDLibreria.logIn(name.getText(), pass.getText());
@@ -30,7 +36,7 @@ public class PrimaryController {
                 App.setRoot("admin");
             break;
             default:
-                error.setDisable(false);
+                error.setVisible(true);
             break;  
         }
         

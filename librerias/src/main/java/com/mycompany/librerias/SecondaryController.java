@@ -47,7 +47,7 @@ public class SecondaryController {
     @FXML
     private void initialize() {
         userName.setText(CRUDLibreria.name);
-        saldo.setText("Saldo: "+CRUDLibreria.saldo+"€");
+        printSaldo();
         getProducts();
     }
 
@@ -100,17 +100,22 @@ public class SecondaryController {
 
     @FXML
     private void carrito() throws SQLException {
+       
        boolean bandera = CRUDLibreria.transacion(selcionados);
        if(bandera){
         this.selcionados.clear();
         leg.setText("0");
        }
+       printSaldo();
        
     }
     @FXML
     private void setSaldo(){
         
         CRUDLibreria.ingresarSaldo(Double.parseDouble(saldoText.getText()));
+        printSaldo();
+    }
+    private void printSaldo(){
         saldo.setText("Saldo: "+CRUDLibreria.saldo+"€");
     }
 }

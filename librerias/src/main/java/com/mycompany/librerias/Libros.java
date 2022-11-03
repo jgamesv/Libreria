@@ -78,7 +78,7 @@ public class Libros {
 
     @Override
     public String toString() {
-        return "El libro " + title + " de " + author + " por " + price + " €";
+        return "El libro " + title + " de " + author + " por " + price + " €. \n";
     }
     
     
