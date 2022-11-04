@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -15,7 +16,7 @@
       <Pane prefHeight="414.0" prefWidth="618.0">
          <children>
               <Button fx:id="secondaryButton" layoutX="25.0" layoutY="357.0" onAction="#switchToPrimary" text="Cerrar Sesión" />
-            <TableView fx:id="table" layoutX="25.0" layoutY="67.0" onMouseClicked="#añadirCarrito" prefHeight="261.0" prefWidth="580.0">
+            <TableView fx:id="table" layoutX="19.0" layoutY="126.0" onMouseClicked="#añadirCarrito" prefHeight="203.0" prefWidth="580.0">
                <columns>
                   <TableColumn fx:id="tctitles" prefWidth="93.0" text="Titulos" />
                   <TableColumn fx:id="tcauthors" prefWidth="112.0" text="Autores" />
@@ -34,6 +35,9 @@
             <Label fx:id="saldo" layoutX="451.0" layoutY="28.0" text="num" />
             <TextField fx:id="saldoText" layoutX="387.0" layoutY="358.0" prefHeight="25.0" prefWidth="94.0" />
             <Button layoutX="508.0" layoutY="357.0" mnemonicParsing="false" onAction="#setSaldo" text="Agregar Saldo" />
+            <ComboBox fx:id="tipoDato" layoutX="309.0" layoutY="76.0" prefHeight="25.0" prefWidth="117.0" />
+            <TextField fx:id="palabraBuscar" layoutX="20.0" layoutY="76.0" prefHeight="25.0" prefWidth="269.0" />
+            <Button layoutX="449.0" layoutY="76.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
          </children>
       </Pane>
     </children>

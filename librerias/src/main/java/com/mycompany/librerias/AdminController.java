@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -64,10 +65,16 @@ public class AdminController {
     private TableColumn<Libros, Integer> tcid;
     @FXML
     private TableColumn<Libros, Integer> tcstock;
+    @FXML
+    private ComboBox tipoDato;
+    @FXML
+    private TextField palabraBuscar;
 
     @FXML
     private void initialize() {
         userName.setText("Administrador: " + CRUDLibreria.name);
+        this.tipoDato.setItems(FXCollections.observableArrayList("Titulo", "Autor", "ISBN"));
+        this.tipoDato.setValue("Titulo");
         disabled();
         getProducts();
         aceptar.setVisible(false);
@@ -129,9 +136,47 @@ public class AdminController {
             enabled();
             id.setDisable(true);
         }
+        
 
     }
+    @FXML
+    private void buscar() {
+        String sql = "SELECT * FROM books";
+        switch (tipoDato.getValue().toString()) {
+            case "Titulo":
+                sql = "SELECT * FROM books WHERE title = '" + palabraBuscar.getText() + "';";
+                break;
+            case "Autor":
+                sql = "SELECT * FROM books WHERE author = '" + palabraBuscar.getText() + "';";
+                break;
+            case "ISBN":
+                sql = "SELECT * FROM books WHERE ibsn = '" + palabraBuscar.getText() + "';";
+                break;
+        }
+               ResultSet rs = null;
+        ObservableList<Libros> obs = FXCollections.observableArrayList();
+        try {
+            Connection con = Conection.getConection();
+            Statement st = con.createStatement();
+            rs = st.executeQuery(sql);
+            con.commit();
+            while (rs.next()) {
+                if (rs.getInt("stock") > 0) {
+                    obs.add(new Libros(rs.getInt("id"), rs.getString("title"), rs.getString("author"), rs.getDouble("price"), rs.getString("ibsn"), rs.getInt("stock")));
+                    this.table.setItems(obs);
+                    this.tctitles.setCellValueFactory(new PropertyValueFactory("title"));
+                    this.tcauthors.setCellValueFactory(new PropertyValueFactory("author"));
+                    this.tcsisbn.setCellValueFactory(new PropertyValueFactory("ISBN"));
+                    this.tcprice.setCellValueFactory(new PropertyValueFactory("price"));
+                }
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error en la carga de datos");
+        }
+
+    }
     private void disabled() {
         this.id.setDisable(true);
         this.titulo.setDisable(true);
